@@ -117,8 +117,8 @@ module top_module (
         .read_data1(read_data1),
         .read_data2(read_data2)
     );
-    wire [32:0] write_data,idex_write_data;
-    wire [32:0] imm_out;
+    wire [31:0] write_data,idex_write_data;
+    wire [31:0] imm_out;
     control CTRL (
         .optype(optype),
         .funct3(funct3),
@@ -169,7 +169,7 @@ module top_module (
         .jalr_in(jalr),
         .imm_in(imm_out),
         .write_data_in(write_data),
-        .funct3_in(funct3),  // You may switch imm type depending on instruction
+        .funct3_in(funct3),  
 
         .pc_out(idex_pc_out),
         .read_data1_out(idex_read_data1_out),
@@ -266,7 +266,8 @@ assign alu_input_y = idex_alu_src_out ? idex_imm_out  : forwardB_result;
         .write_data(exmem_write_data_out),
         .mem_write(exmem_mem_write_out),
         .mem_read(exmem_mem_read_out),
-        .read_data(mem_data)
+        .read_data(mem_data),
+        .funct3(ex_mem_funct3)
     );
 
     mem_wb_pipeline_register MEM_WB (
