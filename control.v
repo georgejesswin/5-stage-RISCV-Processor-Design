@@ -36,6 +36,7 @@ always @(*) begin
     mem_to_reg  = 0;
     branch      = 0;
     jump        = 0;
+    jalr        =0;
     x           = data_1;
     y           = data_2;
 
@@ -128,7 +129,9 @@ always @(*) begin
         11'b00000100000: begin
             reg_write   = 1;
             jump        = 1;
-            alu_src     = 1;
+            alu_src     = 0;
+            x           = pc;
+            y           =32'b0100;
             imm_out          = immJ;
             alu_op      = 4'b0000;
         end
@@ -138,7 +141,9 @@ always @(*) begin
             reg_write   = 1;
             jump        = 1;
             jalr=1;
-            alu_src     = 1;
+            alu_src     = 0;
+            x           = pc;
+            y           =32'b0100;
             imm_out          = immI;
             alu_op      = 4'b0000;
         end
@@ -147,6 +152,7 @@ always @(*) begin
         11'b00010000000: begin
             reg_write   = 1;
             alu_src     = 1;
+            x           = 32'b0;
             imm_out          = immU;
             alu_op      = 4'b0000;
         end
@@ -162,7 +168,6 @@ always @(*) begin
 
         // System
         11'b01000000000: begin
-            // You can expand this based on CSR or ECALL if required
             alu_op = 4'b0000;
         end
 
