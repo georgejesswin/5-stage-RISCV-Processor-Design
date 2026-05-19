@@ -1,0 +1,14 @@
+// PC = 0x00
+addi x1, x0, 1       // x1 = 1
+// PC = 0x04
+jal  x1, 16          // Jump forward 16 bytes (to PC = 20), save PC+4 (8) to x1
+// PC = 0x08 (This is where the function will return!)
+addi x2, x0, 100     // x2 = 100
+// PC = 0x0C
+beq  x0, x0, 0       // Infinite loop to end program gracefully
+// PC = 0x10
+addi x0, x0, 0       // NOP padding
+// PC = 0x14 (Start of the function)
+addi x5, x0, 50      // x5 = 50
+// PC = 0x18
+jalr x0, 0(x1)       // Return! Jump to the address saved in x1 (which is 8)
