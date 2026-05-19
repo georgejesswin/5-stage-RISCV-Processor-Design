@@ -1,0 +1,8 @@
+// PC = 0
+addi x1, x0, 5     // x1 = 5
+addi x2, x0, 5     // x2 = 5
+beq  x1, x2, 12    // 5 == 5, so jump forward 12 bytes (to PC = 20)
+addi x3, x0, 99    // BAD INSTRUCTION: Must be flushed!
+addi x3, x0, 100   // BAD INSTRUCTION: Must be flushed!
+// PC = 20
+addi x4, x0, 10    // x4 = 10
