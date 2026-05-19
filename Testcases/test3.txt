@@ -1,0 +1,5 @@
+addi x1, x0, 256   // x1 = 256 (Memory Address)
+addi x2, x0, 99    // x2 = 99
+sw   x2, 0(x1)     // Store 99 at address 256
+lw   x3, 0(x1)     // Load 99 into x3
+add  x4, x3, x3    // x4 = 99 + 99 = 198 (LOAD-USE HAZARD HERE)
