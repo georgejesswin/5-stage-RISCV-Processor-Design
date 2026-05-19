@@ -73,7 +73,7 @@ module top_module (
         .pc(pc_current)
     );
 
-    instruction_memory IMEM (
+   instruction_memory IMEM (
         .address(pc_current),
         .instruction(instruction)
     );
@@ -212,6 +212,7 @@ wire [31:0] forwardB_result;
 
 
 
+
 assign forwardA_result = 
     (forwardA == 2'b10) ? (exmem_mem_to_reg_out ) ? mem_data : exmem_alu_result_out :
     (forwardA == 2'b01) ? write_back_data: // You must mux correctly in MEM/WB
@@ -234,13 +235,14 @@ assign alu_input_y = idex_alu_src_out ? idex_imm_out  : forwardB_result;
     wire [31:0] branch_target_b = idex_pc_out + idex_imm_out; // B-type / J-type
     wire [31:0] jalr_target = (forwardA_result + idex_imm_out) & 32'hfffffffe;
     assign ex_target_pc = idex_jump_out && idex_jalr_out ? jalr_target : branch_target_b;
-
+    wire [31:0] return_address = idex_pc_out + 4;
+    wire [31:0] final_ex_result = idex_jump_out ? return_address : alu_result;
     ex_mem_pipeline_register EX_MEM (
         .clk(clk),
         .reset(reset),
         .stall(1'b0),
         .flush(1'b0),
-        .alu_result_in(alu_result),
+        .alu_result_in(final_ex_result),
         .write_data_in(forwardB_result),
         .rd_in(idex_rd_out),
         .mem_read_in(idex_mem_read_out),
