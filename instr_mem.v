@@ -11,7 +11,7 @@ module instruction_memory(
     // This block is removed for synthesis
     
     initial begin
-        $readmemh("instruction_memory.hex", inst_mem); // REMOVE this in final synthesis
+        $readmemh("test1.hex", inst_mem); // REMOVE this in final synthesis
     end
     
 
