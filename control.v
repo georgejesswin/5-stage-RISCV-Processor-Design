@@ -130,8 +130,6 @@ always @(*) begin
             reg_write   = 1;
             jump        = 1;
             alu_src     = 0;
-            x           = pc;
-            y           =32'b0100;
             imm_out          = immJ;
             alu_op      = 4'b0000;
         end
@@ -142,8 +140,6 @@ always @(*) begin
             jump        = 1;
             jalr=1;
             alu_src     = 0;
-            x           = pc;
-            y           =32'b0100;
             imm_out          = immI;
             alu_op      = 4'b0000;
         end
