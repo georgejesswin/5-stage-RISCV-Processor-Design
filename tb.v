@@ -9,8 +9,8 @@ module top_module_tb;
     //wire  [1:0] forwardA, forwardB,idex_jalr_out;
     wire [31:0] registers [0:31];
     wire [31:0] mem [0:1023];
+    localparam LAST_INSTR = 32'h0000006f; // jal x0, 0
     
-
     // Instantiate the DUT (Device Under Test)
     top_module uut (
         .clk(clk),
@@ -24,6 +24,9 @@ module top_module_tb;
     assign pc = uut.pc_current;
     assign instruction =uut.instruction;
     assign alu_result=uut.alu_result;
+   // assign jalr_target=uut.jalr_target;
+    //assign idex_imm_out=uut.idex_imm_out;
+    //assign forwardA_result=uut.forwardA_result;
     //assign ex_target_pc=uut.ex_target_pc;
     assign write_back_data=uut.write_back_data;
     //assign idex_jalr_out=uut.idex_jalr_out;
@@ -56,12 +59,17 @@ module top_module_tb;
         // Display header
         $display("Time\tReset\tPC");
         $monitor("%0t\t%b\t%0d", $time, reset, pc);
+          if (!reset && instruction == LAST_INSTR) begin
+        $display("LAST INSTRUCTION REACHED at time %0t ns, PC = %h", $time, pc);
+    end
 
         // Hold reset high for a few cycles
         #10 reset = 0;
 
         // Run simulation for a few clock cycles
-        #150 $finish;
+        #10000 $finish;
     end
+    
+    
 
 endmodule
